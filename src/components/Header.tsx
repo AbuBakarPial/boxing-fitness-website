@@ -45,7 +45,10 @@ export default function Header() {
       title: 'HOME',
       submenu: ['HOME ONE', 'HOME TWO', 'HOME THREE']
     },
-    { title: 'ABOUT US' },
+    { 
+      title: 'ABOUT US',
+      href: '#about'
+    },
     {
       title: 'PROGRAMS',
       submenu: ['BOXING', 'MUAY THAI', 'MMA', 'FITNESS', 'YOGA', 'STRENGTH TRAINING']
@@ -59,11 +62,18 @@ export default function Header() {
       submenu: ['OUR TEAM', 'TRAINER PROFILES', 'CERTIFICATIONS']
     },
     {
+      title: 'GALLERY',
+      href: '#gallery'
+    },
+    {
       title: 'PRICING',
       submenu: ['MEMBERSHIPS', 'DROP-IN RATES', 'PERSONAL TRAINING', 'CORPORATE PLANS']
     },
-    { title: 'CONTACT' }
-  ];
+    { 
+      title: 'CONTACT',
+      href: '#contact'
+    }
+  ] as const;
 
   // Sanitize href to prevent XSS
   const sanitizeHref = (href: string) => {
@@ -160,13 +170,22 @@ export default function Header() {
               <div className="flex items-center space-x-1">
                 {menuItems.map((item, index) => (
                   <div key={index} className="relative group">
-                    <button
-                      className="text-gray-800 hover:text-red-600 px-4 py-2 text-sm font-bold uppercase tracking-wide transition-colors flex items-center group"
-                      onClick={() => item.submenu && toggleDropdown(sanitizeText(item.title))}
-                    >
-                      <span className="group-hover:scale-105 transition-transform">{sanitizeText(item.title)}</span>
-                      {item.submenu && <FaChevronDown className="ml-1 text-xs group-hover:rotate-180 transition-transform duration-300" />}
-                    </button>
+                    {item.href ? (
+                      <a
+                        href={sanitizeHref(item.href)}
+                        className="text-gray-800 hover:text-red-600 px-4 py-2 text-sm font-bold uppercase tracking-wide transition-colors flex items-center group"
+                      >
+                        <span className="group-hover:scale-105 transition-transform">{sanitizeText(item.title)}</span>
+                      </a>
+                    ) : (
+                      <button
+                        className="text-gray-800 hover:text-red-600 px-4 py-2 text-sm font-bold uppercase tracking-wide transition-colors flex items-center group"
+                        onClick={() => item.submenu && toggleDropdown(sanitizeText(item.title))}
+                      >
+                        <span className="group-hover:scale-105 transition-transform">{sanitizeText(item.title)}</span>
+                        {item.submenu && <FaChevronDown className="ml-1 text-xs group-hover:rotate-180 transition-transform duration-300" />}
+                      </button>
+                    )}
                     {item.submenu && (
                       <div className="absolute top-full left-0 mt-2 w-56 bg-white rounded-xl shadow-2xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform group-hover:translate-y-0 translate-y-2 border border-gray-100">
                         <div className="py-2">
@@ -225,17 +244,26 @@ export default function Header() {
                 <nav className="space-y-1">
                   {menuItems.map((item, index) => (
                     <div key={index} className="border-b border-gray-100 last:border-b-0">
-                      <button
-                        className="w-full text-left px-3 py-4 text-gray-800 hover:text-red-600 hover:bg-gray-50 transition-all duration-300 flex items-center justify-between font-bold uppercase"
-                        onClick={() => item.submenu && toggleDropdown(sanitizeText(item.title))}
-                      >
-                        <span>{sanitizeText(item.title)}</span>
-                        {item.submenu && (
-                          <FaChevronDown 
-                            className={`text-xs transition-transform duration-300 ${activeDropdown === sanitizeText(item.title) ? 'rotate-180' : ''}`}
-                          />
-                        )}
-                      </button>
+                      {item.href ? (
+                        <a
+                          href={sanitizeHref(item.href)}
+                          className="w-full text-left px-3 py-4 text-gray-800 hover:text-red-600 hover:bg-gray-50 transition-all duration-300 flex items-center justify-between font-bold uppercase"
+                        >
+                          <span>{sanitizeText(item.title)}</span>
+                        </a>
+                      ) : (
+                        <button
+                          className="w-full text-left px-3 py-4 text-gray-800 hover:text-red-600 hover:bg-gray-50 transition-all duration-300 flex items-center justify-between font-bold uppercase"
+                          onClick={() => item.submenu && toggleDropdown(sanitizeText(item.title))}
+                        >
+                          <span>{sanitizeText(item.title)}</span>
+                          {item.submenu && (
+                            <FaChevronDown 
+                              className={`text-xs transition-transform duration-300 ${activeDropdown === sanitizeText(item.title) ? 'rotate-180' : ''}`}
+                            />
+                          )}
+                        </button>
+                      )}
                       {item.submenu && activeDropdown === item.title && (
                         <motion.div
                           initial={{ opacity: 0, height: 0 }}

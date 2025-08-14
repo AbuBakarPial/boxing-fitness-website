@@ -9,6 +9,7 @@ import About from '@/components/About';
 import Training from '@/components/Training';
 import Membership from '@/components/Membership';
 import Trainers from '@/components/Trainers';
+import Gallery from '@/components/Gallery';
 import Events from '@/components/Events';
 import Testimonials from '@/components/Testimonials';
 import Tutorial from '@/components/Tutorial';
@@ -32,14 +33,21 @@ export default function Home() {
     <div className="min-h-screen bg-white">
       <Header />
       <Hero />
-      <About />
+      <section id="about">
+        <About />
+      </section>
       <Training />
       <Membership />
       <Trainers />
       <Events />
       <Testimonials />
       <Tutorial />
-      <Contact />
+      <section id="gallery">
+        <Gallery />
+      </section>
+      <section id="contact">
+        <Contact />
+      </section>
       <Newsletter />
       <Blog />
       <Sponsors />
